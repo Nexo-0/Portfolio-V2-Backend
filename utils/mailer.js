@@ -26,7 +26,7 @@ const sendEmails = async (name, email, message) => {
       subject: "Thanks for contacting me",
       html: `
         <h2>Hello ${name},</h2>
-
+        <p>This is an automated response to confirm that I received your message.</p>
         <p>Thanks for reaching out through my portfolio.</p>
         <p>I received your message and will review it shortly.</p>
 
