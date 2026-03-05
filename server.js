@@ -6,10 +6,16 @@ const connectDB = require("./config/connectDB");
 
 const app = express();
 
-connectDB(); // connect database
+connectDB();
 
 app.use(cors());
 app.use(express.json());
+
+// Health check route
+app.get("/", (req, res) => {
+    res.send("Portfolio Backend Running 🚀");
+});
+
 app.use("/api/contact", require("./routes/contactRoutes"));
 
 const PORT = process.env.PORT || 5000;
