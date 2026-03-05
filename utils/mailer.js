@@ -3,14 +3,14 @@ const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmails = async (name, email, message) => {
-
   try {
 
-    // notification to you
+    // 1️⃣ Notification to you
     await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
       to: process.env.EMAIL_USER,
       subject: "New Portfolio Contact Message",
+      reply_to: email,
       html: `
         <h2>New Contact Form Message</h2>
         <p><b>Name:</b> ${name}</p>
@@ -19,7 +19,7 @@ const sendEmails = async (name, email, message) => {
       `
     });
 
-    // auto reply
+    // 2️⃣ Auto reply to visitor
     await resend.emails.send({
       from: "Kunal Petare <onboarding@resend.dev>",
       to: email,
@@ -35,10 +35,11 @@ const sendEmails = async (name, email, message) => {
       `
     });
 
+    console.log("Emails sent successfully");
+
   } catch (error) {
     console.log("Email error:", error);
   }
-
 };
 
 module.exports = sendEmails;
