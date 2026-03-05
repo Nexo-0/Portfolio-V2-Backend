@@ -3,16 +3,20 @@ const nodemailer = require("nodemailer");
 // Create transporter (SMTP connection)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  port: 587,        // use 587 instead of 465
+  secure: false,    // STARTTLS
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  family: 4,        // force IPv4 (prevents IPv6 ENETUNREACH errors)
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
 // Verify SMTP connection when server starts
-transporter.verify((error, success) => {
+transporter.verify(function (error, success) {
   if (error) {
     console.log("SMTP connection failed:", error);
   } else {
@@ -23,7 +27,7 @@ transporter.verify((error, success) => {
 const sendEmails = async (name, email, message) => {
   try {
 
-    // 1️⃣ Send notification email to me
+    // Send notification email to YOU
     await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
@@ -37,7 +41,7 @@ const sendEmails = async (name, email, message) => {
       `
     });
 
-    // 2️⃣ Auto reply to the visitor
+    // Auto reply to visitor
     await transporter.sendMail({
       from: `"Kunal Petare" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -47,7 +51,7 @@ const sendEmails = async (name, email, message) => {
 
         <p>Thanks for reaching out through my portfolio.</p>
 
-        <p>I received your message and will review it shortly.  
+        <p>I received your message and will review it shortly.
         I will get back to you as soon as possible.</p>
 
         <br>
