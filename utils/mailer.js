@@ -23,7 +23,7 @@ const sendEmails = async (name, email, message) => {
 
     // auto reply to visitor
     const reply = await resend.emails.send({
-      from: "Kunal Petare <onboarding@resend.dev>",
+      from: "Kunal Petare <kunalpetare123@gmail.com>",
       to: email,
       subject: "Thanks for contacting me",
       html: `
