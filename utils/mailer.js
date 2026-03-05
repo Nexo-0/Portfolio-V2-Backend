@@ -5,8 +5,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const sendEmails = async (name, email, message) => {
   try {
 
-    // 1️⃣ Notification to you
-    await resend.emails.send({
+    // email to YOU
+    const notify = await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
       to: process.env.EMAIL_USER,
       subject: "New Portfolio Contact Message",
@@ -19,23 +19,23 @@ const sendEmails = async (name, email, message) => {
       `
     });
 
-    // 2️⃣ Auto reply to visitor
-    await resend.emails.send({
+    console.log("Notification email sent:", notify);
+
+    // auto reply to visitor
+    const reply = await resend.emails.send({
       from: "Kunal Petare <onboarding@resend.dev>",
       to: email,
       subject: "Thanks for contacting me",
       html: `
         <h2>Hello ${name},</h2>
-
         <p>Thanks for reaching out through my portfolio.</p>
         <p>I received your message and will reply soon.</p>
-
         <br>
         <b>Kunal Petare</b>
       `
     });
 
-    console.log("Emails sent successfully");
+    console.log("Auto reply sent:", reply);
 
   } catch (error) {
     console.log("Email error:", error);
